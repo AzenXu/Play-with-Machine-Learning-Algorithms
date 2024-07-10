@@ -6,17 +6,20 @@ class LinearRegression:
 
     def __init__(self):
         """初始化Linear Regression模型"""
-        self.coef_ = None
-        self.intercept_ = None
+        self.coef_ = None  # 系数向量，θ(1...n)
+        self.intercept_ = None  # 截距，θ(0)
         self._theta = None
 
     def fit_normal(self, X_train, y_train):
+        """
+        fit_normal：通过「正规化方程」，求得数学θ解
+        """
         """根据训练数据集X_train, y_train训练Linear Regression模型"""
         assert X_train.shape[0] == y_train.shape[0], \
             "the size of X_train must be equal to the size of y_train"
 
-        X_b = np.hstack([np.ones((len(X_train), 1)), X_train])
-        self._theta = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y_train)
+        X_b = np.hstack([np.ones((len(X_train), 1)), X_train])  # 为给进来的X矩阵添加x0列（匹配θ0）
+        self._theta = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y_train)  # linalg.inv（-1次方）
 
         self.intercept_ = self._theta[0]
         self.coef_ = self._theta[1:]
